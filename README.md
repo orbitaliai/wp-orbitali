@@ -20,6 +20,18 @@ backend gaps, and scope decisions made because of them.
 - An Orbitali account and an API key (Orbitali dashboard → Settings → API keys)
 - Outbound HTTPS access from your WordPress server to `api.orbitali.ai`
 
+## Try it in Docker
+
+```bash
+docker compose up -d
+docker compose logs -f cli   # wait for setup to finish, then Ctrl-C
+```
+
+Opens a throwaway WordPress site at http://localhost:8080 with the plugin already
+mounted and activated and a sample page ready to Preview/Sync. See
+`docs/TESTING.md` for details, including testing with a real Divi install and what
+does/doesn't need a real Orbitali API key.
+
 ## Installation
 
 1. Download the latest release ZIP (or build one yourself, see below).
