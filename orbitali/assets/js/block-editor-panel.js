@@ -65,7 +65,28 @@
 
 		useEffect(
 			function () {
-				refresh();
+				if ( ! postId ) {
+					return;
+				}
+				OrbitaliEditor.fetchStatus( postId ).then(
+					function ( data ) {
+						setStatus( data );
+						setLoading( false );
+						// A sync was already in flight when this panel
+						// mounted (e.g. started from another tab, or this
+						// is a reload while queued/processing) - resume
+						// live updates instead of leaving it static until
+						// the next manual action.
+						if ( data.locked ) {
+							OrbitaliEditor.pollUntilSettled( postId, function ( polled ) {
+								setStatus( polled );
+							} );
+						}
+					},
+					function () {
+						setLoading( false );
+					}
+				);
 			},
 			[ postId ]
 		);
@@ -108,7 +129,11 @@
 
 		var mapping = status.mapping || {};
 		var label = OrbitaliEditor.statusLabel( mapping, status.has_changes );
-		var canSync = status.eligible && 'processing' !== mapping.status && 'queued' !== mapping.status;
+		// Gate on the lock, not the persisted status string: if a queued
+		// job never actually ran (e.g. WP-Cron didn't fire), the status
+		// would otherwise stay "Processing" forever with no way back.
+		// The lock expires on its own even when nothing updates it.
+		var canSync = status.eligible && ! status.locked;
 		var canRemove = !! mapping.document_id || !! mapping.pending_document_id || !! mapping.stale_document_id;
 
 		function doPreview() {
@@ -221,7 +246,7 @@
 						disabled: ! canSync || !! busy,
 						onClick: doSync,
 					},
-					'sync' === busy || 'processing' === mapping.status || 'queued' === mapping.status
+					'sync' === busy || status.locked
 						? __( 'Syncing…', 'orbitali' )
 						: __( 'Sync to Orbitali', 'orbitali' )
 				),

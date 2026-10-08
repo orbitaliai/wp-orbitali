@@ -52,7 +52,10 @@
 
 		var mapping = status.mapping || {};
 		var label = OrbitaliEditor.statusLabel( mapping, status.has_changes );
-		var canSync = status.eligible && 'processing' !== mapping.status && 'queued' !== mapping.status;
+		// Gate on the lock, not the persisted status string: if a queued
+		// job never actually ran (e.g. WP-Cron didn't fire), the status
+		// would otherwise stay "Processing" forever with no way back.
+		var canSync = status.eligible && ! status.locked;
 		var canRemove = !! mapping.document_id || !! mapping.pending_document_id || !! mapping.stale_document_id;
 		var busy = options.busy;
 
@@ -99,10 +102,7 @@
 				type: 'button',
 				className: 'button button-primary',
 				disabled: ! canSync || !! busy,
-				text:
-					'sync' === busy || 'processing' === mapping.status || 'queued' === mapping.status
-						? 'Syncing…'
-						: 'Sync to Orbitali',
+				text: 'sync' === busy || status.locked ? 'Syncing…' : 'Sync to Orbitali',
 				onClick: function () {
 					runSync( container, postId );
 				},
@@ -205,6 +205,16 @@
 		if ( ! postId ) {
 			return;
 		}
-		refresh( container, postId );
+		OrbitaliEditor.fetchStatus( postId ).then( function ( status ) {
+			render( container, postId, status, {} );
+			// A sync was already in flight when this page loaded (e.g.
+			// started from another tab, or this is a reload while
+			// queued/processing) - resume live updates.
+			if ( status.locked ) {
+				OrbitaliEditor.pollUntilSettled( postId, function ( polled ) {
+					render( container, postId, polled, {} );
+				} );
+			}
+		} );
 	} );
 } )();

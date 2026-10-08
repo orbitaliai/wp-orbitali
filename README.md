@@ -133,7 +133,7 @@ WordPress + Orbitali account to verify by hand.
 | Symptom | Likely cause / fix |
 |---|---|
 | "The Orbitali API key is invalid or has been revoked." | Key was typed wrong, revoked, or belongs to a deleted account. Re-enter it. |
-| Sync stays on "Processing" for a long time | Large documents are embedded chunk-by-chunk by Orbitali and this plugin uploads via WP-Cron in the background. If your host blocks WP-Cron's loopback request or has very infrequent site traffic, set up a real server cron hitting `wp-cron.php` on a short interval. |
+| Sync stays on "Processing" for a long time | Large documents are embedded chunk-by-chunk by Orbitali and this plugin uploads via WP-Cron in the background. If your host blocks WP-Cron's loopback request or has very infrequent site traffic, set up a real server cron hitting `wp-cron.php` on a short interval. The Sync button re-enables itself once the plugin's internal lock expires (10 minutes) even if the job never ran, so you can retry without reloading - but the underlying cron delivery problem still needs fixing for it to actually complete. |
 | "Synced, but removing the previous version failed…" | The new content is already live on Orbitali; only cleanup of the old copy failed. Click **Sync** again to retry cleanup, or remove the old document manually from the Orbitali dashboard. |
 | Orbitali panel doesn't appear | Confirm the post type is Page or Post (the only types enabled by default - use the `orbitali_allowed_post_types` filter to add more) and that your user has edit rights on that specific item. |
 | Nothing/garbled text in Preview | Your theme or page builder likely renders content in a way this MVP's extractor doesn't understand. Divi is explicitly supported; other builders are not. |

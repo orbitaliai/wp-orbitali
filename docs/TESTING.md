@@ -32,6 +32,26 @@ Override the port or admin credentials by copying `.env.example` to `.env`
 first - none of those values are secrets, they only configure the local
 throwaway database and admin account.
 
+## Background sync jobs and WP-Cron
+
+Clicking **Sync** on a page queues the actual upload as a WP-Cron job (see
+`docs/ARCHITECTURE.md` §3 for why). WordPress's normal way of firing that -
+a loopback HTTP request the PHP process makes to its own site URL - is
+unreliable in Docker: this container's own site URL is the *published* host
+and port (e.g. `http://localhost:8080`), but nothing inside the container
+listens on that port; only Apache's internal port 80 does. That mismatch
+varies by Docker Desktop/Engine version and isn't something a plugin can
+reliably paper over.
+
+Rather than fight that, this stack runs a dedicated `cron-runner` service
+that executes due WP-Cron jobs directly every 5 seconds
+(`wp cron event run --due-now`), independent of the loopback mechanism. This
+is the containerized equivalent of the real-server-cron setup the README's
+troubleshooting section recommends for a production site whose host blocks
+loopback requests. If you ever see a page stuck on "Processing" for more
+than a few seconds, check `docker compose logs cron-runner` and confirm the
+service is running (`docker compose ps`).
+
 ## What you can actually test this way
 
 - The full connection flow in Settings → Orbitali, **if you have a real

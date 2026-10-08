@@ -10,7 +10,10 @@ window.OrbitaliEditor = ( function () {
 
 	var TERMINAL_STATUSES = [ 'synced', 'failed', 'not_synced', 'withdrawal_failed', 'changes_pending' ];
 	var POLL_INTERVAL_MS = 3000;
-	var POLL_MAX_ATTEMPTS = 100; // ~5 minutes
+	// Comfortably longer than the server's lock TTL (10 minutes) so that if
+	// the background job never actually runs, polling is still live when the
+	// lock expires and the UI can unlock itself without a page reload.
+	var POLL_MAX_ATTEMPTS = 240; // ~12 minutes
 
 	function fetchStatus( postId ) {
 		return wp.apiFetch( { path: '/orbitali/v1/status/' + postId, method: 'GET' } );
@@ -47,7 +50,13 @@ window.OrbitaliEditor = ( function () {
 				}
 				onUpdate( status );
 				var mappingStatus = status.mapping ? status.mapping.status : 'not_synced';
-				if ( TERMINAL_STATUSES.indexOf( mappingStatus ) !== -1 || attempts >= POLL_MAX_ATTEMPTS ) {
+				var settled = TERMINAL_STATUSES.indexOf( mappingStatus ) !== -1;
+				// Also stop once the lock clears, even if the status string
+				// never reached a terminal value - that happens when the
+				// background job never actually ran and the lock simply
+				// expired, which the UI needs to recover from either way.
+				var unlocked = false === status.locked;
+				if ( settled || unlocked || attempts >= POLL_MAX_ATTEMPTS ) {
 					return;
 				}
 				window.setTimeout( tick, POLL_INTERVAL_MS );

@@ -95,6 +95,7 @@ class Orbitali_Sync_Manager {
 			'reason'       => $eligibility['reason'],
 			'mapping'      => null,
 			'has_changes'  => false,
+			'locked'       => false,
 		);
 
 		if ( ! $configured ) {
@@ -103,6 +104,12 @@ class Orbitali_Sync_Manager {
 
 		$agent_id = Orbitali_Settings::get_agent_id();
 		$mapping  = Orbitali_Post_Meta::get( $post_id, $agent_id );
+		// The source of truth for "a sync is actually in flight" is the
+		// lock, not the persisted status string: if the background job
+		// never ran (e.g. WP-Cron didn't fire) the lock still expires on
+		// its own, but a status of "processing" would otherwise stay
+		// stuck forever with no way for the UI to recover.
+		$result['locked'] = Orbitali_Post_Meta::is_locked( $post_id, $agent_id );
 
 		if ( $eligibility['eligible'] && in_array( $mapping['status'], array( Orbitali_Post_Meta::STATUS_SYNCED ), true ) ) {
 			$post   = get_post( $post_id );

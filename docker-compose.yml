@@ -32,6 +32,7 @@ services:
     volumes:
       - wp_data:/var/www/html
       - ./orbitali:/var/www/html/wp-content/plugins/orbitali
+      - ./docker/mu-plugins:/var/www/html/wp-content/mu-plugins
 
   cli:
     image: wordpress:cli
@@ -51,6 +52,28 @@ services:
       WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD:-admin}
       WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL:-admin@example.com}
     entrypoint: ["sh", "/wp-init.sh"]
+
+  cron-runner:
+    image: wordpress:cli
+    restart: unless-stopped
+    depends_on:
+      - wordpress
+    volumes:
+      - wp_data:/var/www/html
+      - ./orbitali:/var/www/html/wp-content/plugins/orbitali
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: ${DB_NAME:-wordpress}
+      WORDPRESS_DB_USER: ${DB_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-wordpress}
+    # WordPress's own loopback-triggered WP-Cron (the normal production
+    # mechanism) is unreliable across Docker network setups - it depends on
+    # this container being able to reach its own published host:port, which
+    # varies by Docker Desktop/Engine version and OS. Rather than fight that,
+    # run due cron events directly on an interval. This is the containerized
+    # equivalent of the real-server-cron setup recommended in docs/TESTING.md
+    # and the README's troubleshooting section for production.
+    entrypoint: ["sh", "-c", "while true; do wp --path=/var/www/html --allow-root cron event run --due-now >/dev/null 2>&1; sleep 5; done"]
 
 volumes:
   db_data:
