@@ -1,0 +1,9 @@
+/build/
+/*.zip
+.DS_Store
+node_modules/
+vendor/
+.phpunit.result.cache
+*.log
+.idea/
+.vscode/

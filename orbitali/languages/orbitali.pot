@@ -1,0 +1,239 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Orbitali 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/orbitali/wp-orbitali/issues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-01-01T00:00:00+00:00\n"
+"X-Generator: manual stub - regenerate with `wp i18n make-pot . languages/orbitali.pot`\n"
+"X-Domain: orbitali\n"
+
+#. This file is a manually curated starting point, not a tool-generated
+#. extraction. Regenerate it with WP-CLI before a release:
+#.   wp i18n make-pot . languages/orbitali.pot --domain=orbitali
+
+msgid "Orbitali"
+msgstr ""
+
+msgid "Connection"
+msgstr ""
+
+msgid "API key"
+msgstr ""
+
+msgid "Connected"
+msgstr ""
+
+msgid "Not connected"
+msgstr ""
+
+msgid "Change key"
+msgstr ""
+
+msgid "Disconnect"
+msgstr ""
+
+msgid "Connect"
+msgstr ""
+
+msgid "Connecting…"
+msgstr ""
+
+msgid "Create an API key from your Orbitali dashboard under Settings → API keys, then paste it here. The key is stored only on this server and is never shown again in full."
+msgstr ""
+
+msgid "Orbitali's public API does not expose an organization name to API-key clients, so it cannot be shown here. A successful connection and the agent list below confirm the key is valid."
+msgstr ""
+
+msgid "Disconnect Orbitali? Your destination agent selection will be cleared."
+msgstr ""
+
+msgid "Destination agent"
+msgstr ""
+
+msgid "Pages and posts you sync from this site will be added to this agent's knowledge base."
+msgstr ""
+
+msgid "No agents yet."
+msgstr ""
+
+msgid "%d document(s)"
+msgstr ""
+
+msgid "Use selected agent"
+msgstr ""
+
+msgid "Create new agent"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Voice"
+msgstr ""
+
+msgid "Instructions (optional)"
+msgstr ""
+
+msgid "This creates a static, knowledge-only agent as a draft. Phone number assignment and activation are managed separately in the Orbitali dashboard."
+msgstr ""
+
+msgid "Create agent"
+msgstr ""
+
+msgid "Currently selected"
+msgstr ""
+
+msgid "Connect your Orbitali account and choose which voice agent should receive the pages and posts you sync from this site."
+msgstr ""
+
+msgid "You are not allowed to manage Orbitali settings."
+msgstr ""
+
+msgid "Eve (female)"
+msgstr ""
+
+msgid "Ara (female)"
+msgstr ""
+
+msgid "Rex (male)"
+msgstr ""
+
+msgid "Sal (male)"
+msgstr ""
+
+msgid "Leo (male)"
+msgstr ""
+
+msgid "English (US)"
+msgstr ""
+
+msgid "Spanish (Spain)"
+msgstr ""
+
+msgid "Spanish (US)"
+msgstr ""
+
+msgid "Italian (Italy)"
+msgstr ""
+
+msgid "Enter an API key."
+msgstr ""
+
+msgid "Choose an agent."
+msgstr ""
+
+msgid "Name is required."
+msgstr ""
+
+msgid "Could not create the agent."
+msgstr ""
+
+msgid "That agent is no longer accessible."
+msgstr ""
+
+msgid "Connect Orbitali first."
+msgstr ""
+
+msgid "Answer questions using only the uploaded knowledge base. If the answer is not in the knowledge base, say you do not know and offer to connect the caller with a human."
+msgstr ""
+
+msgid "No Orbitali API key configured."
+msgstr ""
+
+msgid "The Orbitali API key is invalid or has been revoked."
+msgstr ""
+
+msgid "The requested Orbitali resource was not found."
+msgstr ""
+
+msgid "The request conflicts with the current state on Orbitali."
+msgstr ""
+
+msgid "Orbitali is rate-limiting this API key. Please try again shortly."
+msgstr ""
+
+msgid "Could not reach Orbitali."
+msgstr ""
+
+msgid "Orbitali returned a server error. Please try again."
+msgstr ""
+
+msgid "Orbitali request failed (HTTP %d)."
+msgstr ""
+
+msgid "Content not found."
+msgstr ""
+
+msgid "This content type is not supported."
+msgstr ""
+
+msgid "Only published content can be synced."
+msgstr ""
+
+msgid "Password-protected content cannot be synced."
+msgstr ""
+
+msgid "This content is not publicly accessible."
+msgstr ""
+
+msgid "This content is empty."
+msgstr ""
+
+msgid "No readable text content could be extracted from this page."
+msgstr ""
+
+msgid "Excluded unsupported shortcode(s), which were not executed: %s"
+msgstr ""
+
+msgid "Source: %s"
+msgstr ""
+
+msgid "Last updated: %s"
+msgstr ""
+
+msgid "Connect Orbitali and select a destination agent first."
+msgstr ""
+
+msgid "A sync is already in progress for this content."
+msgstr ""
+
+msgid "Nothing to sync: no readable content was extracted from this page."
+msgstr ""
+
+msgid "Already up to date."
+msgstr ""
+
+msgid "Content is no longer public; sync was cancelled."
+msgstr ""
+
+msgid "Orbitali did not return a document id for the upload."
+msgstr ""
+
+msgid "Indexing is taking longer than expected. Please try again later."
+msgstr ""
+
+msgid "Indexing failed on Orbitali."
+msgstr ""
+
+msgid "The uploaded document could not be found for verification."
+msgstr ""
+
+msgid "Synced, but removing the previous version failed and will be retried: %s"
+msgstr ""
+
+msgid "No destination agent is selected."
+msgstr ""
+
+msgid "A sync is in progress; try removing again shortly."
+msgstr ""
+
+msgid "Orbitali: this content became non-public, but removing it from the knowledge base failed. Open the Orbitali panel on this item to retry."
+msgstr ""
+
+msgid "Loading Orbitali status…"
+msgstr ""

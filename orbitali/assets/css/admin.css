@@ -1,0 +1,75 @@
+.orbitali-badge {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 3px;
+	font-size: 12px;
+	font-weight: 600;
+	margin-left: 6px;
+}
+.orbitali-badge-ok {
+	background: #d4f4dd;
+	color: #1a7f37;
+}
+.orbitali-badge-error {
+	background: #fde2e1;
+	color: #a52a21;
+}
+.orbitali-error {
+	color: #a52a21;
+}
+.orbitali-agent-list {
+	list-style: none;
+	margin: 0 0 12px;
+}
+.orbitali-agent-list li {
+	padding: 6px 0;
+	border-bottom: 1px solid #e2e4e7;
+}
+.orbitali-pill {
+	display: inline-block;
+	padding: 1px 6px;
+	border-radius: 10px;
+	background: #f0f0f1;
+	font-size: 11px;
+	text-transform: uppercase;
+	margin-left: 6px;
+}
+
+.orbitali-panel {
+	font-size: 13px;
+}
+.orbitali-panel p {
+	margin: 0 0 10px;
+}
+.orbitali-panel .orbitali-status-row {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-bottom: 10px;
+}
+.orbitali-panel .orbitali-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-bottom: 10px;
+}
+.orbitali-panel .orbitali-warning {
+	color: #996800;
+	background: #fcf3cd;
+	padding: 6px 8px;
+	border-radius: 3px;
+}
+.orbitali-panel .orbitali-error-text {
+	color: #a52a21;
+	background: #fde2e1;
+	padding: 6px 8px;
+	border-radius: 3px;
+}
+.orbitali-panel pre.orbitali-preview {
+	max-height: 300px;
+	overflow: auto;
+	white-space: pre-wrap;
+	background: #f6f7f7;
+	padding: 8px;
+	border: 1px solid #dcdcde;
+}
