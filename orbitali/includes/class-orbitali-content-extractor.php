@@ -46,7 +46,12 @@ class Orbitali_Content_Extractor {
 		list( $filtered, $shortcode_warnings ) = self::unwrap_disallowed_shortcodes( $raw );
 		$warnings = array_merge( $warnings, $shortcode_warnings );
 
-		$html = do_shortcode( $filtered );
+		// do_blocks() expands block-editor content (including dynamic core
+		// blocks); it runs before shortcode handling because WordPress's own
+		// content pipeline does the same. wptexturize() is deliberately
+		// skipped - its cosmetic quote/dash substitutions aren't needed here
+		// and would just make hashes less predictable.
+		$html = do_shortcode( do_blocks( $filtered ) );
 		$html = wpautop( $html );
 
 		$body_markdown = self::html_to_markdown( $html, $warnings );
@@ -151,7 +156,11 @@ class Orbitali_Content_Extractor {
 		libxml_clear_errors();
 		libxml_use_internal_errors( $internal_errors );
 
-		$root = $dom->getElementById( 'orbitali-root' );
+		// Not getElementById(): that relies on libxml recognizing "id" as a
+		// DTD ID-type attribute, which an arbitrary HTML fragment doesn't
+		// guarantee. XPath has no such dependency.
+		$matches = ( new DOMXPath( $dom ) )->query( '//*[@id="orbitali-root"]' );
+		$root    = $matches->length > 0 ? $matches->item( 0 ) : null;
 		if ( ! $root ) {
 			return '';
 		}

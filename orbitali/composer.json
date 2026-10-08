@@ -1,0 +1,19 @@
+{
+	"name": "orbitali/wp-orbitali",
+	"description": "Sync WordPress pages and posts into an Orbitali voice agent's knowledge base.",
+	"license": "MIT",
+	"type": "wordpress-plugin",
+	"require": {
+		"php": ">=7.4"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^9.6",
+		"yoast/phpunit-polyfills": "^2.0",
+		"wp-phpunit/wp-phpunit": "^6.5"
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true
+		}
+	}
+}
