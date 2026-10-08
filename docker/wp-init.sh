@@ -21,11 +21,22 @@ until [ -f /var/www/html/wp-config.php ]; do
 done
 
 echo "Waiting for the database..."
+# `wp db check` shells out to the mariadb-check CLI binary, which in this
+# image defaults to requiring TLS even though the throwaway db container
+# doesn't offer it - a client-tooling quirk, not a real connectivity
+# problem. `wp core is-installed` goes through WordPress's own PHP/mysqli
+# connection instead, so it's what we actually wait on.
 i=0
-until $WP db check >/dev/null 2>&1; do
+while :; do
+	output=$($WP core is-installed 2>&1) && break
+	code=$?
+	if [ "$code" -eq 1 ] && ! printf '%s' "$output" | grep -qi "error establishing a database connection"; then
+		break # DB reachable, WordPress just isn't installed yet.
+	fi
 	i=$((i + 1))
 	if [ "$i" -ge 60 ]; then
 		echo "Timed out waiting for the database" >&2
+		printf '%s\n' "$output" >&2
 		exit 1
 	fi
 	sleep 2
